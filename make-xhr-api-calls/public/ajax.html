@@ -7,12 +7,29 @@
 	</head>
 	<body>
 		<h1>AJAX Calls</h1>
-		<button id="button">GET TEXT FILE</button>
+		<button id="btn-txt">GET TEXT FILE</button>
+		<button id="btn-api">GET EXTERNAL DATA</button>
+		<button id="btn-refresh">REFRESH PAGE</button>
 
 		<script>
 			// create XHR object
 			const xhr = new XMLHttpRequest();
-			const btn = document.querySelector('#button');
+			const xhr1 = new XMLHttpRequest();
+
+			const btn = document.querySelector('#btn-txt');
+			const btn1 = document.querySelector('#btn-api');
+			const btnRefresh = document.getElementById('btn-refresh');
+
+			function loadData() {
+				// initialize the newly created request object as in asynchronous call mode
+				xhr1.open('GET', 'https://icanhazdadjoke.com', true);
+
+				// set headers
+				xhr1.setRequestHeader('Accept', 'application/json');
+
+				// send request
+				xhr1.send();
+			}
 
 			function loadText() {
 				console.log('loadText() running...');
@@ -26,16 +43,36 @@
 
 			function showResponse(event) {
 				console.log('Response:', event.currentTarget.response);
+				const msg = event.currentTarget.responseText;
+				const p = document.createElement('p');
+				p.innerText = msg;
+				document.body.append(p);
+			}
+
+			function showResponse1(event) {
+				console.log('Response:', JSON.parse(event.currentTarget.response));
+				const msg = JSON.parse(event.currentTarget.response).joke;
+				const p = document.createElement('p');
+				p.innerText = msg;
+				document.body.append(p);
 			}
 
 			function errorHandler() {
 				console.log('Something went wrong!');
 			}
 
+			function refreshPage() {
+				location.reload();
+			}
+
 			// listen to button click event by adding an event listener function
 			btn.addEventListener('click', loadText);
+			btn1.addEventListener('click', loadData);
+			btnRefresh.addEventListener('click', refreshPage);
 			xhr.addEventListener('load', showResponse);
 			xhr.addEventListener('error', errorHandler);
+			xhr1.addEventListener('load', showResponse1);
+			xhr1.addEventListener('error', errorHandler);
 		</script>
 	</body>
 </html>

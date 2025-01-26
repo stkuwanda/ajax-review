@@ -4,7 +4,7 @@ const http = require('node:http');
 const path = require('node:path');
 
 const html = fs.readFileSync(path.join(__dirname, 'public', 'ajax.html'));
-const txt = fs.createReadStream(path.join(__dirname, 'public', 'sample.txt'));
+const txt = fs.readFileSync(path.join(__dirname, 'public', 'sample.txt'));
 
 function get(res) {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -13,7 +13,8 @@ function get(res) {
 
 function getText(res) {
 	res.writeHead(200, { 'Content-Type': 'text/plain' });
-  txt.pipe(res);
+  res.end(txt);
+  //txt.pipe(res);
 }
 
 function error(res, code) {
