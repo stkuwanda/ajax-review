@@ -28,10 +28,17 @@
       console.log('Response:', event.currentTarget.response);
     }
 
+    function errorHandler() {
+      console.log('Something went wrong!');
+    }
+
     // listen to button click event by adding an event listener function
     btn.addEventListener('click', loadText);
 
     xhr.addEventListener('load', showResponse);
+
+    xhr.addEventListener('error', errorHandler);
+
 
   </script>
 </body>
