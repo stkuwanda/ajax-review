@@ -7,6 +7,32 @@
 </head>
 <body>
   <h1>AJAX Calls</h1>
-  <script></script>
+  <button id="button">GET TEXT FILE</button>
+  <script>
+    const btn = document.querySelector('#button');
+
+    // create XHR object
+    const xhr = new XMLHttpRequest();
+
+    function loadText() {
+      console.log('loadText() running...');
+
+      // initialize the newly created request object as in asynchronous call mode
+      xhr.open('GET', 'sample.txt', true);
+
+      // send request
+      xhr.send();
+    }
+
+    function showResponse(event) {
+      console.log('Response:', event.currentTarget.response);
+    }
+
+    // listen to button click event by adding an event listener function
+    btn.addEventListener('click', loadText);
+
+    xhr.addEventListener('load', showResponse);
+
+  </script>
 </body>
 </html>
