@@ -31,12 +31,12 @@
 				const searchText = form.elements.query.value;
 
 				try {
-					const res = await axios.get(
-						`https://api.tvmaze.com/search/shows?q=${searchText}`
-					);
+					const res = await axios.get('https://api.tvmaze.com/search/shows', {
+						params: { q: searchText },
+					});
 
 					makeImages(res.data);
-          form.elements.query.value = '';
+					form.elements.query.value = '';
 				} catch (error) {
 					console.log(error);
 				}
