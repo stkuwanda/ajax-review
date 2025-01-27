@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fetch API</title>
-</head>
-<body>
-  <h1>Fetch API</h1>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fetch API</title>
+	</head>
+	<body>
+		<h1>Fetch API</h1>
+		<button id="btn-joke">ADD A JOKE</button>
+		<button id="btn-refresh">REFRESH PAGE</button>
 
-  <script>
-    
-  </script>
-</body>
+		<script>
+			const btnJoke = document.querySelector('#btn-joke');
+			const btnRefresh = document.getElementById('btn-refresh');
+			const ul = document.createElement('ul');
+      btnRefresh.insertAdjacentElement('afterend', ul);
+
+			async function getJoke() {
+				try {
+					const res = await fetch('https://icanhazdadjoke.com', {
+						method: 'GET',
+						headers: { Accept: 'application/json' },
+					});
+          
+					const data = await res.json();
+					return data.joke;
+				} catch (error) {
+					return 'Connection failed!';
+				}
+			}
+
+			async function updatePage() {
+				try {
+					const li = document.createElement('li');
+					const joke = await getJoke();
+					li.textContent = joke;
+					ul.append(li);
+				} catch (error) {
+					console.log('Failed to update the page!', error);
+				}
+			}
+
+			btnJoke.addEventListener('click', function () {
+				updatePage();
+			});
+
+			btnRefresh.onclick = function () {
+				location.reload();
+			};
+		</script>
+	</body>
 </html>
