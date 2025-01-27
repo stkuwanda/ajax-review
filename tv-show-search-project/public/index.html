@@ -16,10 +16,30 @@
 		<script>
 			const form = document.getElementById('searchForm');
 
-			form.addEventListener('submit', function (event) {
+			function makeImages(shows) {
+				for (let show of shows) {
+					if (show.show.image) {
+						const img = document.createElement('img');
+						img.src = show.show.image.medium;
+						form.insertAdjacentElement('afterend', img);
+					}
+				}
+			}
+
+			form.addEventListener('submit', async function (event) {
 				event.preventDefault();
 				const searchText = form.elements.query.value;
-        console.log(searchText);
+
+				try {
+					const res = await axios.get(
+						`https://api.tvmaze.com/search/shows?q=${searchText}`
+					);
+
+					makeImages(res.data);
+          form.elements.query.value = '';
+				} catch (error) {
+					console.log(error);
+				}
 			});
 		</script>
 	</body>
